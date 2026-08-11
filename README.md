@@ -4,13 +4,13 @@ A desktop application that turns a hydroponic greenhouse into something you can 
 
 ## The Problem
 
-Running a hydroponic greenhouse means juggling dozens of moving parts at once: water pumps, pH and nutrient levels, temperature, humidity, CO2, grow lights, planting and harvest schedules — all across multiple sectors and crop lots, all changing in real time. Without a single place to see and act on this data, growers are left checking physical gauges one by one, with no early warning when something drifts out of range.
+Running a hydroponic greenhouse means juggling dozens of moving parts at once: water pumps, pH and nutrient levels, temperature, humidity, CO2, grow lights, planting and harvest schedules, all across multiple sectors and crop lots, all changing in real time. Without a single place to see and act on this data, growers are left checking physical gauges one by one, with no early warning when something drifts out of range.
 
 ## The Approach
 
 Green Experience is a **PyQt5 desktop simulation** of a smart greenhouse, built around a clean **Model-View-Controller** architecture:
 
-- **Models** hold the state of every entity — sectors, lots, crops, actuators — and persist it to a local **SQLite** database.
+- **Models** hold the state of every entity, sectors, lots, crops, actuators, and persist it to a local **SQLite** database.
 - **Views** are PyQt5 widgets that render each entity (a pump panel, a lot's health bar, a sector overview) and stay live-updated via background `QThread` refreshers.
 - **Controllers** sit between the two, translating user actions into model updates and model state into what the view displays.
 
@@ -22,9 +22,9 @@ Every actuator (pump, humidifier, temperature regulator, CO2 tank, grow lights) 
 
 A single application where you can:
 
-- **Monitor the whole greenhouse at a glance** — sectors are color-coded (ok / needs attention / empty), so problems surface immediately instead of hiding in a log.
+- **Monitor the whole greenhouse at a glance**, sectors are color-coded (ok / needs attention / empty), so problems surface immediately instead of hiding in a log.
 - **Drill into any sector or lot** to see live sensor readings (temperature, humidity, CO2), crop health, phenological phase, and planting/harvest dates.
-- **Control actuators directly** — toggle pumps, adjust pH/EC, set target temperature, humidity, and CO2 levels, and pick the nutrient solution profile.
+- **Control actuators directly**, toggle pumps, adjust pH/EC, set target temperature, humidity, and CO2 levels, and pick the nutrient solution profile.
 - **Plant and harvest lots** with one click, with yield automatically computed from crop health and timing.
 - **Get proactive notifications** when an actuator is off, out of its recommended range, or when a lot is ready to harvest, needs planting, or is losing health.
 - **Track consumption and productivity** over time with interactive charts (weekly / monthly / yearly / all-time).
@@ -35,7 +35,7 @@ A single application where you can:
 - **Python 3.8+**
 - **PyQt5** for the GUI, `pyqtgraph` for charts, `qtwidgets` for custom controls
 - **SQLite** for persistence
-- Custom lightweight **MVC framework** (`util/`) — singleton services, a generic `Simple_Model` / `Lista` layer for CRUD, and threaded refreshers for live UI updates
+- Custom lightweight **MVC framework** (`util/`), singleton services, a generic `Simple_Model` / `Lista` layer for CRUD, and threaded refreshers for live UI updates
 
 ## Getting Started
 
@@ -86,7 +86,7 @@ python main.py
 
 ## Project Structure
 
-Each domain (`account`, `attuatore_generico`, `avvisi`, `centralina`, `colture`, `consumi`, `home`, `login`, `lotto`, `produttività`, `serra`, `settore`) follows the same `model / view / controller` layout, with shared infrastructure in `util/`. This consistency makes the codebase predictable to navigate — once you understand one module, you understand them all.
+Each domain (`account`, `attuatore_generico`, `avvisi`, `centralina`, `colture`, `consumi`, `home`, `login`, `lotto`, `produttività`, `serra`, `settore`) follows the same `model / view / controller` layout, with shared infrastructure in `util/`. This consistency makes the codebase predictable to navigate, once you understand one module, you understand them all.
 
 ## Credits
 
