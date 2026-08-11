@@ -5,30 +5,20 @@ from PyQt5.QtWidgets import QMessageBox, QStackedWidget, QDesktopWidget, QStacke
 from login.view.vista_login import Vista_Login
 from util.updater import Updater
 
-'''
-    Implementazione della classe Main_Window
-    Implementa la finestra principale
-'''
 
+# Finestra principale: stack di view dell'applicazione, parte dalla schermata di login.
 class Main_Window(QStackedWidget):
 
-    '''
-        Centra la finestra nello schermo
-    '''
-
+    # Centra la finestra sullo schermo.
     def centerOnScreen(self):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.moveCenter(centerPoint)
         self.move(qtRectangle.topLeft())
 
-    '''
-        Costruttore
-    '''
-
+    # Avvia il thread Updater e mostra la view di login.
     def __init__(self):
         super().__init__()
-        t1 = datetime.now()
         self.resize(1080,720)
         self.update_thread = Updater()
         self.update_thread.start()
@@ -36,28 +26,16 @@ class Main_Window(QStackedWidget):
         self.addWidget(Vista_Login(None,self))
         self.setWindowTitle("Green Experience")
         self.show()
-        t2 = datetime.now()
-        #print("tempo impiegato per avviare il programma: " + str((t2-t1).total_seconds()) + " secondi")
 
-    '''
-        Salva i dati nel database, richiamando la classe Updater
-    '''
-
+    # Ferma i thread e salva lo stato del programma sul database.
     def save(self):
         window = self.currentWidget()
-        t1 = datetime.now()
         window.abort_threads()
         self.update_thread.abort()
         self.update_thread.save()
         DB_Connector().close_connection()
-        t2 = datetime.now()
-        #print("tempo impiegato per salvare: " + str((t2-t1).total_seconds()) + " secondi")
 
-    '''
-        Istanzia un QMessageBox alla chiusura del programma
-        Viene richiamata quando si clicca sulla x della finestra
-    '''
-
+    # Chiede conferma alla chiusura: se confermata salva ed esce, altrimenti annulla.
     def closeEvent(self, event):
 
         box = QMessageBox(self)
@@ -70,7 +48,7 @@ class Main_Window(QStackedWidget):
         buttonY.setText(' Sì ')
         buttonN.setText(' No ')
         box.exec_()
-        
+
         if box.clickedButton() == buttonY:
             event.accept()
             self.setWindowFlag(Qt.WindowCloseButtonHint, False)

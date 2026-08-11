@@ -3,20 +3,12 @@ from util.simple_model import Simple_Model
 from util.singleton import Singleton
 import locale
 
-'''
-    Implementazione della classe Clock
-    Implementa l'orologio di sistema
-'''
 
+# Orologio di sistema singleton: gestisce il tempo simulato dell'applicazione.
 @Singleton
 class Clock(Simple_Model):
 
-    '''
-        Costruttore
-        Parametri:
-            (int) id
-    '''
-
+    # Calcola l'orario corrente simulato a partire dall'ultimo salvataggio e dal moltiplicatore.
     def __init__(self,id = 1):
        super().__init__("Tempo",id)
        locale.setlocale(locale.LC_TIME,"it_IT.utf8")
@@ -27,51 +19,26 @@ class Clock(Simple_Model):
        time_delta = timedelta( seconds = self.get_time_diff_sec() ) * self.fact
        self.cur_time = datetime.strptime(self.info["realtime"], "%d %b %Y, %a %H:%M" ) + time_delta
 
-    '''
-        Restituisce il tempo in secondi trascorso dall'ultima esecuzione del programma
-        Return:
-            (int) secondi  
-    '''
-
+    # Secondi reali trascorsi dall'ultima chiusura del programma.
     def get_time_diff_sec(self):
         return (self.now_time - self.user_time).total_seconds()
-    
-    '''
-        Restituisce il tempo attuale
-        Return:
-            (datetime) tempo attuale
-    '''
 
+    # Restituisce l'orario simulato corrente.
     def get_cur_time(self):
         return self.cur_time
-    
-    '''
-        L'orario di sistema aumenta di una quantità pari al clock per
-        un fattore di conversione
-    '''
 
+    # Avanza l'orario simulato di un tick, scalato per il fattore di conversione.
     def tick(self):
         self.cur_time += timedelta( seconds = self.clock ) * self.fact
-    
-    '''
-        Restituisce il fattore di conversione
-        Return:
-            (float) fattore
-    '''
 
+    # Restituisce il fattore di conversione tempo reale/simulato.
     def get_fact(self):
         return self.fact
-    
-    '''
-        Setta il tempo utente
-    '''
 
+    # Registra l'ora reale attuale come istante dell'ultimo salvataggio.
     def set_user_time(self):
         self.info["usertime"] = datetime.strftime(datetime.now(), "%d %b %Y, %a %H:%M")
-    
-    '''
-        Setta il tempo fittizio
-    '''
 
+    # Registra l'orario simulato corrente da persistere su database.
     def set_real_time(self):
         self.info["realtime"] = datetime.strftime(self.cur_time, "%d %b %Y, %a %H:%M")

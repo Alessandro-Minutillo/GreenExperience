@@ -17,30 +17,18 @@ from util.singleton import Singleton
 from util.time_refresher import Time_Refresher
 from consumi.model.lista_consumi import Lista_Consumi
 
-'''
-    Implementazione della classe Updater
-    Implementa un thread che si occupa di aggiornare lo stato del programma
-    e dispone di una funzione di salvataggio
-'''
 
+# Thread singleton che aggiorna periodicamente lo stato del programma e lo salva su database.
 @Singleton
 class Updater(Time_Refresher):
 
-    '''
-        Costruttore
-        Percorso delle funzioni chiamate:
-            util.clock.get_time_diff(self)
-            util.simple_refresher.get_sleep_time(self)
-            util.time_refresher.get_cur_time(self)
-            centralina.model.lista_centraline.recalc(self,number)
-    '''
-
+    # Carica tutte le liste di model, riallinea lo stato al tempo trascorso e collega il segnale di update.
     def __init__(self):
         super().__init__()
-        
+
         self.lim = 10
         self.eta2 = 0
-        
+
         self.lista_prod = Lista_Prod()
         self.lista_profili_luce = Lista_Profili_Luce()
         self.lista_pompe = Lista_Pompe()
@@ -57,41 +45,24 @@ class Updater(Time_Refresher):
         self.serra = Model_Serra()
         self.timer = Clock()
         self.lista_consumi=Lista_Consumi()
-        
+
         number = min(50, int( self.timer.get_time_diff_sec()/ (self.get_sleep_time() * self.lim)) )
         self.lista_centraline.recalc(number)
         self.serra.recalc(self.timer.get_cur_time())
         self.refresh_signal.connect(self.update)
 
-    '''
-        Funzione eseguita quando il thread emette il segnale
-        Aggiorna l'orario di sistema e lo stato del programma,
-        in particolare i model di centraline, lotti e serra
-        Percorso delle funzioni chiamate:
-            util.lista.update(self,...)
-            util.clock.get_fact(self)
-            util.simple_refresher.get_sleep_time(self)
-    '''
-
+    # A ogni segnale avanza l'orologio e, ogni lim tick, aggiorna centraline, lotti e serra.
     def update(self):
         self.timer.tick()
-        
+
         if self.eta2 == 0:
             self.lista_centraline.update()
             self.lista_lotti.update(self.get_time())
             self.serra.update(self.get_time(), self.timer.get_fact() * (self.get_sleep_time() * self.lim) )
-        
+
         self.eta2 = (self.eta2+1)% self.lim
 
-    '''
-        Salva lo stato del programma
-        Percorso delle funzioni chiamate:
-            util.lista.save_all(self)
-            util.simple_model.save_data(self)
-            util.clock.set_user_time(self)
-            util.clock.set_real_time(self)
-    '''
-
+    # Salva su database orologio e tutte le liste di model.
     def save(self):
         self.timer.set_user_time()
         self.timer.set_real_time()

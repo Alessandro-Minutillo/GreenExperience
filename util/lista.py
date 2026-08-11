@@ -1,92 +1,52 @@
 from util.db_connector import DB_Connector
 
-'''
-    Implementazione della classe Lista
-    Definisce un'interfaccia per una lista di oggetti
-'''
 
+# Collezione generica di model, indicizzati per id e caricati dal database.
 class Lista():
 
-    '''
-        Costruttore
-        Parametri:
-            (class) class_, classe degli oggetti;
-            (string) table, tabella del database
-    '''
-
+    # Carica dalla tabella gli id esistenti e istanzia un oggetto class_ per ciascuno.
     def __init__(self,class_,table):
         self.lista = {}
         self.class_ = class_
-        
+
         cursor = DB_Connector().get_cursor()
         query = "SELECT id from {}".format(table)
         cursor.execute(query)
         d_items = cursor.fetchall()
-        
+
         for d in d_items:
             self.lista[int(d["id"])] = class_(int(d["id"]))
-        
+
         self.last_id = max(self.lista.keys()) if self.lista else 0
 
-    '''
-        Aggiunge un elemento alla lista
-        Parametri:
-            (object) item
-    '''
-
+    # Aggiunge un elemento alla lista e aggiorna l'ultimo id usato.
     def add(self, item):
         self.last_id = int(item.get_id())
-        self.lista[self.last_id] = item 
+        self.lista[self.last_id] = item
 
-    '''
-        Restituisce l'id più grande tra gli oggetti della lista
-        Return:
-            (int) id
-    '''
-
+    # Restituisce l'id più alto tra gli elementi della lista.
     def get_last_id(self):
        return self.last_id
 
-    '''
-        Restituisce la lista
-        Return:
-            (dict) lista
-    '''
-
+    # Restituisce il dizionario {id: oggetto} di tutti gli elementi.
     def get_all(self):
         return self.lista
-    
-    '''
-        Restituisce l'elemento della lista corrispondente all'id
-        Parametri:
-            (int) id
-        Return:
-            (object) item
-    '''
 
+    # Restituisce l'elemento con l'id indicato.
     def get_by_id(self,id):
         return self.lista[int(id)]
 
-    '''
-        Aggiorna tutti gli elementi della lista
-    '''
-
+    # Propaga update() a tutti gli elementi della lista.
     def update(self, *args, **kwargs):
         for val in self.lista.values():
             val.update(*args, **kwargs)
 
-    '''
-        Ricalcola lo stato di tutti gli elementi della lista
-        all'accensione del programma
-    '''
-
+    # Propaga recalc() a tutti gli elementi (ricalcolo stato all'avvio).
     def recalc(self, *args, **kwargs):
         for val in self.lista.values():
             val.recalc(*args, **kwargs)
-    '''
-        Salva tutti gli elementi della lista nel database
-    '''
 
+    # Salva su database tutti gli elementi della lista.
     def save_all(self):
         for val in self.lista.values():
             val.save_data()
