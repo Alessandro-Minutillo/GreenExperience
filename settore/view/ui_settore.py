@@ -3,17 +3,10 @@ from PyQt5.QtWidgets import QFrame, QGridLayout, QPushButton, QVBoxLayout, QHBox
 from PyQt5.QtCore import QPoint, QSize, Qt
 from PyQt5.QtGui import QPixmap
 
-'''
-   Implementazione della classe Ui_Settore
-   Crea la gui della vista settore
-'''
-
+# GUI della vista settore: frame degli attuatori e griglia dei lotti.
 class Ui_Settore():
-    
-    '''
-      Costruisce il frame di un attuatore
-    '''
 
+    # Costruisce il frame grafico di un attuatore (icona, stato, alert).
     def build_frame_att(self,obj, name, text):
        obj.setObjectName(name)
        obj.setProperty("class","frame_att")
@@ -59,9 +52,7 @@ class Ui_Settore():
        pos = QPoint(0,0)
        img.move(pos)
     
-    '''
-      Costruisce il frame di un lotto
-    '''
+    # Costruisce il frame grafico di un lotto (nome e alert).
     def build_frame_lotto(self,obj, name, text):
        
        obj.setObjectName(name)
@@ -91,10 +82,7 @@ class Ui_Settore():
        layout.setStretch(1,6)
        obj.setLayout(layout)
     
-    '''
-      Crea la gui
-    '''
-
+    # Costruisce i widget e il layout della vista settore.
     def setup_ui(self,ui):
        
        self.att_img = {}

@@ -2,17 +2,10 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QGridLayout, QLabel
 
-'''
-    Implementazionde della classe Ui_Centralina
-    Crea la gui della vista di una centralina
-'''
-
+# GUI della vista centralina: label dei valori rilevati.
 class Ui_Centralina():
 
-    '''
-        Costruisce la gui
-    '''
-
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
        ui.setObjectName("sensori_frame")
        param_layout = QGridLayout()

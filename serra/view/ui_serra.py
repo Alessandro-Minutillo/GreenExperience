@@ -2,17 +2,10 @@ from PyQt5.QtWidgets import QFrame, QGridLayout, QHBoxLayout, QVBoxLayout, QLabe
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 
-'''
-    Implementazione della classe Ui_Serra
-    Crea la gui della vista serra
-'''
-
+# GUI della vista serra: griglia dei settori.
 class Ui_Serra():
-    
-    '''
-        Crea la gui
-    '''
 
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
        
        ui.setObjectName("serra")

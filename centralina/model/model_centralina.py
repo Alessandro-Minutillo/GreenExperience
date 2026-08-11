@@ -5,20 +5,11 @@ from attuatore_generico.serbCO2.model.lista_serbCO2 import Lista_SerbCO2
 from attuatore_generico.temp_reg.model.lista_temp_reg import Lista_Temp_Reg
 from random import random
 
-'''
-    Implementazione della classe Model_Centralina
-    Implementa un model per la rappresentazione di una centralina
-'''
 
+# Model della centralina: simula la rilevazione di temperatura, CO2 e umidità del settore.
 class Model_Centralina(Simple_Model):
 
-    '''
-        Costruttore
-        Percorso delle funzioni chiamate:
-            util.lista.get_by_id(self,id)
-            util.simple_model.retrieve_data(self, table, values = "*", cond_field = None, cond_value = None)
-    '''
-
+    # Carica i dati e collega gli attuatori del settore (temp_reg, serbCO2, umid, pompa).
     def __init__(self, id):
         super().__init__("Centralina",id)
         self.lrate = 0.2
@@ -31,107 +22,48 @@ class Model_Centralina(Simple_Model):
         self.serbco2 = Lista_SerbCO2().get_by_id(id_serbco2)
         self.umid = Lista_Umid().get_by_id(id_umid)
         self.pompa = Lista_Pompe().get_by_id(id_pompa)
-    
-    '''
-        Restituisce la temperatura rilevata dalla centralina
-        Return:
-            (float) temperatura
-    '''
 
+    # Restituisce la temperatura rilevata.
     def get_temp(self):
         return float(self.info["temp"])
 
-    '''
-        Setta la temperatura rilevata dalla centralina
-        Parametri:
-            (float) valore
-    '''
-
+    # Imposta la temperatura rilevata.
     def set_temp(self,val):
         self.info["temp"] = val
-    
-    '''
-        Restituisce la concentrazione di CO2 rilevata dalla centralina
-        Return:
-            (float) concentrazione di CO2
-    '''
 
+    # Restituisce la concentrazione di CO2 rilevata.
     def get_liv_co2(self):
         return float(self.info["liv_co2"])
 
-    '''
-        Setta la concentrazione di CO2 rilevata dalla centralina
-        Parametri:
-            (float) valore
-    '''
-
+    # Imposta la concentrazione di CO2 rilevata.
     def set_liv_co2(self,val):
         self.info["liv_co2"] = val
 
-    '''
-        Restituisce l'umidità rilevata dalla centralina
-        Return:
-            (float) umidità
-    '''
-
+    # Restituisce l'umidità rilevata.
     def get_umid(self):
         return float(self.info["umid"])
 
-    '''
-        Setta l'umidità rilevata dalla centralina
-        Parametri:
-            (float) valore
-    '''
-
+    # Imposta l'umidità rilevata.
     def set_umid(self,val):
         self.info["umid"] = val
-    
-    '''
-        Restituisce un valore booleano che indica se la pompa presente 
-        nel settore della centralina è accesa e impostata sui valori
-        consigliati
-    '''
 
+    # True se la pompa del settore è accesa e impostata sui valori consigliati.
     def get_flag_pompa(self):
         return not self.pompa.is_oor() and self.pompa.get_switch()
 
-    '''
-        Ricalcola un parametro della centralina in modo che si avvicini
-        al valore obiettivo impostato
-        Parametri:
-            (float) x, valore attuale del parametro;
-            (float) target, valore obiettivo del parametro
-        Return:
-            (float) nuovo valore del parametro
-    '''
-
+    # Avvicina un parametro al valore obiettivo con un passo pari a lrate.
     def appr(self, x, target):
         return self.casual(x + (target - x) * self.lrate)
-    
-    '''
-        Ricalcola un parametro della centralina in modo randomico quando
-        non esiste un valore obiettivo impostao (l'attuatore è spento)
-        Parametri:
-            (float) x, valore attuale del parametro;
-        Return:
-            (float) nuovo valore del parametro
-    '''
 
+    # Applica una piccola variazione casuale a un parametro (attuatore spento).
     def casual(self, x):
         return x + x * (random() - 0.5)/100
-    
-    '''
-        Procedura di ricalcolo che aggiorna il valore dei parametri rilevati
-        dalla centralina per n volte, dove n (limitato a 100) è una misura del tempo
-        trascorso dallo spegnimento del programma
-        Parametri:
-            (int) n, numero di iterazioni
-    '''
 
+    # Ricalcola temperatura, umidità e CO2 iterando n volte (recupero dopo lo spegnimento).
     def recalc(self, n):
         target_temp = float(self.temp_reg.get_temp_ob())
         start_temp = float(self.get_temp())
-        
+
         for i in range(n):
             start_temp = self.appr(start_temp, target_temp)
         self.set_temp(start_temp)
@@ -150,19 +82,14 @@ class Model_Centralina(Simple_Model):
             start_co2 = self.appr(start_co2, target_co2)
         self.set_liv_co2(start_co2)
 
-    '''
-        Procedura di update che aggiorna periodicamente il valore dei
-        parametri della centralina, generando un valore parzialmente o
-        completamente random
-    '''
-
+    # Aggiorna i parametri rilevati: verso l'obiettivo se l'attuatore è acceso, casuale se spento.
     def update(self):
 
         if self.temp_reg.get_switch():
             self.set_temp( self.appr( float(self.get_temp()) , float(self.temp_reg.get_temp_ob()) ) )
         else:
             self.set_temp( self.casual(float(self.get_temp())))
-        
+
         if self.umid.get_switch():
             self.set_umid( self.appr( float(self.get_umid()) , float(self.umid.get_umid_ob()) ) )
         else:

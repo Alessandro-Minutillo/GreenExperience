@@ -3,17 +3,10 @@ from PyQt5.QtWidgets import QFrame, QGridLayout, QProgressBar, QPushButton, QTex
 from attuatore_generico.luce_reg.view.vista_luce_reg import Vista_Luce_Reg
 from centralina.view.vista_centralina import Vista_Centralina
 
-'''
-    Implementazione della classe Ui_Lotto
-    Crea la gui della vista lotto
-'''
-
+# GUI della vista lotto: frame del lotto con centralina e pannello informativo.
 class Ui_Lotto():
-    
-    '''
-        Costruisce il frame del lotto
-    '''
 
+    # Costruisce il frame del lotto con la vista centralina incorporata.
     def build_frame_lotto_sing(self,obj, name, text, id):
        obj.setObjectName(name)
        obj.setProperty("class","lotti")
@@ -31,10 +24,7 @@ class Ui_Lotto():
        pos = QPoint(0,0)
        self.sensori_frame.move(pos)
 
-    '''
-        Costruisce il frame con le informazioni relative al lotto
-    '''
-
+    # Costruisce il pannello con status, statistiche e note del lotto.
     def build_frame_info(self,obj, name, text):
        obj.setObjectName(name)
        layout = QVBoxLayout()
@@ -101,10 +91,7 @@ class Ui_Lotto():
        obj.setLayout(layout)
 
 
-    '''
-        Crea la gui
-    '''
-
+    # Costruisce i widget e il layout della vista lotto.
     def setup_ui(self,ui):
        
        ui.setObjectName("settore")

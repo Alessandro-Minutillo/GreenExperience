@@ -14,84 +14,70 @@ from datetime import datetime
 import locale
 
 
-'''
-    Implementazione della classe Vista_Settore
-    Implementa la vista di un settore
-'''
-
+# Vista di un settore: griglia dei lotti, stato attuatori e azioni pianta/raccogli.
 class Vista_Settore(Simple_Window):
-    
-    '''
-        Istanzia le immagini da visualizzare nella view
-    '''
 
+    # Carica e ridimensiona le immagini di lotti, attuatori e icone di stato.
     def load_imgs(self):
         self.mywidth = 200
         self.myheight = 200
 
-        self.full_lotto_img = QPixmap("img/area.png").scaled(self.mywidth, 
+        self.full_lotto_img = QPixmap("img/area.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.empty_lotto_img = QPixmap("img/area2.png").scaled(self.mywidth, 
+        self.empty_lotto_img = QPixmap("img/area2.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
-        
+
         self.img = {}
 
-        self.img["ill"] = QPixmap("img/ill.png").scaled(self.mywidth, 
+        self.img["ill"] = QPixmap("img/ill.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.img["on"] = QPixmap("img/on.png").scaled(self.mywidth, 
+        self.img["on"] = QPixmap("img/on.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.img["off"] = QPixmap("img/off.png").scaled(self.mywidth, 
-                                                            self.myheight,
-                                                            Qt.KeepAspectRatio,
-                                                            Qt.SmoothTransformation)
-                                                            
-        self.img["vuoto"] = QPixmap("img/empty.png").scaled(self.mywidth, 
-                                                            self.myheight,
-                                                            Qt.KeepAspectRatio,
-                                                            Qt.SmoothTransformation)
-        self.img["coltivato"] = QPixmap("img/full.png").scaled(self.mywidth, 
-                                                            self.myheight,
-                                                            Qt.KeepAspectRatio,
-                                                            Qt.SmoothTransformation)
-        self.img["raccogliendo"] = QPixmap("img/picking.png").scaled(self.mywidth, 
+        self.img["off"] = QPixmap("img/off.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.img["piantando"] = QPixmap("img/planting.png").scaled(self.mywidth, 
+        self.img["vuoto"] = QPixmap("img/empty.png").scaled(self.mywidth,
+                                                            self.myheight,
+                                                            Qt.KeepAspectRatio,
+                                                            Qt.SmoothTransformation)
+        self.img["coltivato"] = QPixmap("img/full.png").scaled(self.mywidth,
+                                                            self.myheight,
+                                                            Qt.KeepAspectRatio,
+                                                            Qt.SmoothTransformation)
+        self.img["raccogliendo"] = QPixmap("img/picking.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.img["time_out"] = QPixmap("img/time_out.png").scaled(self.mywidth, 
+        self.img["piantando"] = QPixmap("img/planting.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.img["alert"] = QPixmap("img/alert.png").scaled(self.mywidth, 
+        self.img["time_out"] = QPixmap("img/time_out.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
-    '''
-        Raccoglie il maggior numero di lotti nel settore
-        Viene richiamata quando si clicca il bottone "Raccogli tutto"
-        Parametri:
-            (datetime) time, istante attuale
-        Percorso della funzione chiamata:
-            settore.controller.contr_settore.raccogli_tutto(self,time)
-    '''
 
+        self.img["alert"] = QPixmap("img/alert.png").scaled(self.mywidth,
+                                                            self.myheight,
+                                                            Qt.KeepAspectRatio,
+                                                            Qt.SmoothTransformation)
+
+    # Raccoglie tutti i lotti possibili del settore e mostra l'esito.
     def raccogli_tutto(self):
         num = self.controller.raccogli_tutto(self.time_thread.get_time())
         if num > 0:
@@ -101,18 +87,7 @@ class Vista_Settore(Simple_Window):
             self.ui.error_label.setStyleSheet("color: red")
             self.ui.error_label.setText("impossibile raccogliere lotti")
 
-    '''
-        Pianta il maggior numero di lotti nel settore
-        Parametri:
-            (datetime) time, istante attuale
-        Percorso della funzione chiamata:
-            settore.controller.contr_settore.pianta_tutto(self,time)
-            colture.view.vista_selezione_coltura.get_current_coltura(self)
-            colture.view.vista_selezione_coltura.get_current_coltura_id(self)
-            util.time_refresher.get_time(self)
-            settore.controller.contr_settore.change_coltura(self,id)
-    '''
-
+    # Pianta la coltura selezionata nei lotti disponibili e mostra l'esito.
     def pianta_tutto(self):
         selected_text = self.ui.vista_selezione_coltura.get_current_coltura()
         selected_id = self.ui.vista_selezione_coltura.get_current_coltura_id()
@@ -125,54 +100,32 @@ class Vista_Settore(Simple_Window):
         else:
             self.ui.error_label.setStyleSheet("color: red")
             self.ui.error_label.setText("impossibile piantare lotti")
-        
+
         self.clear_error_label = 1
-    
-    '''
-        Esegue il refresh della gui
-        E' connessa al segnale emesso dal QThread Gui_Refresher
-        istanziato da util.simple_window.start_gui_refresher(self)
 
-        Percorso delle funzioni chiamate:
-            util.time_refresher.get_time(self)
-            settore.controller.contr_settore.get_id_lotti(self)
-            settore.controller.contr_settore.get_id_lotti(self)
-            settore.controller.contr_settore.get_status_lotti(self)
-            settore.controller.contr_settore.get_salute_lotti(self)
-            settore.controller.contr_settore.get_soglia_salute_lotti(self)
-            settore.controller.contr_settore.get_date_fine(self)
-            settore.controller.contr_settore.is_pompa_on(self)
-            settore.controller.contr_settore.is_temp_reg_on(self)
-            settore.controller.contr_settore.is_umid_on(self)
-            settore.controller.contr_settore.is_serb_on(self)
-            settore.controller.contr_settore.is_pompa_oor(self)
-            settore.controller.contr_settore.is_temp_reg_oor(self)
-            settore.controller.contr_settore.is_umid_oor(self)
-            settore.controller.contr_settore.is_serb_oor(self)
-    '''
-
+    # Aggiorna icone e stato dei lotti e degli attuatori; pulisce il messaggio dopo qualche ciclo.
     def refresh_gui(self):
         time = self.time_thread.get_time()
-        
+
         if self.clear_error_label == 2:
             self.ui.error_label.clear()
 
         if self.clear_error_label > 0:
             self.clear_error_label = (self.clear_error_label + 1)%3
 
-        for label, id_lotto, status_lotto, salute_lotto, soglia_salute, fine in zip( 
+        for label, id_lotto, status_lotto, salute_lotto, soglia_salute, fine in zip(
                                                                         self.ui.lotti,
-                                                                        self.controller.get_id_lotti(), 
+                                                                        self.controller.get_id_lotti(),
                                                                         self.controller.get_status_lotti(),
                                                                         self.controller.get_salute_lotti(),
                                                                         self.controller.get_soglia_salute_lotti(),
                                                                         self.controller.get_date_fine()):
             name = "Lotto {}".format(id_lotto)
-            
+
             self.ui.alert_frame_lotto[name].setStyleSheet("background-color: white")
             self.ui.alert_frame_lotto[name].setScaledContents(True)
             self.ui.alert_frame_lotto[name].setPixmap(self.img[status_lotto])
-            
+
             if status_lotto == "coltivato" or status_lotto == "raccogliendo":
                 label.setPixmap(self.full_lotto_img)
             else:
@@ -186,7 +139,7 @@ class Vista_Settore(Simple_Window):
             elif status_lotto == 'coltivato' and salute_lotto < soglia_salute:
                 self.ui.alert_frame_lotto[name].setStyleSheet("background-color: yellow")
                 self.ui.alert_frame_lotto[name].setPixmap(self.img['ill'])
-        
+
         self.ui.label_coltura.setText("Coltura: {}".format(self.controller.get_name_coltura()))
 
         if self.controller.is_pompa_on():
@@ -198,7 +151,7 @@ class Vista_Settore(Simple_Window):
             self.ui.onoff_co2.setPixmap(self.img["on"])
         else:
             self.ui.onoff_co2.setPixmap(self.img["off"])
-        
+
         if self.controller.is_temp_reg_on():
             self.ui.onoff_temp_reg.setPixmap(self.img["on"])
         else:
@@ -208,7 +161,7 @@ class Vista_Settore(Simple_Window):
             self.ui.onoff_umid.setPixmap(self.img["on"])
         else:
             self.ui.onoff_umid.setPixmap(self.img["off"])
-        
+
         if self.controller.is_pompa_oor():
             self.ui.alert_pompa.setPixmap(self.img["alert"])
             self.ui.alert_pompa.setStyleSheet("background-color: yellow")
@@ -222,7 +175,7 @@ class Vista_Settore(Simple_Window):
         else:
             self.ui.alert_co2.clear()
             self.ui.alert_co2.setStyleSheet("background-color: transparent")
-        
+
         if self.controller.is_temp_reg_oor():
             self.ui.alert_temp_reg.setPixmap(self.img["alert"])
             self.ui.alert_temp_reg.setStyleSheet("background-color: yellow")
@@ -236,65 +189,41 @@ class Vista_Settore(Simple_Window):
         else:
             self.ui.alert_umid.clear()
             self.ui.alert_umid.setStyleSheet("background-color: transparent")
-    '''
-        Istanzia la vista lotto
-    '''
-    
+
+    # Apre la vista di dettaglio del lotto cliccato.
     def inspect_lotto(self,id,event):
         vista = Vista_Lotto(self,self.main_window,id)
         self.main_window.addWidget(vista)
         self.main_window.setCurrentWidget(vista)
-    
-    '''
-        Istanzia la vista pompa
-    '''
 
+    # Apre la vista della pompa del settore.
     def inspect_pompa(self,event):
         vista = Vista_Pompa(self,self.main_window,self.id)
         self.main_window.addWidget(vista)
         self.main_window.setCurrentWidget(vista)
-    
-    '''
-        Istanzia la vista de/umidificatore
-    '''
 
+    # Apre la vista dell'umidificatore del settore.
     def inspect_umid(self,event):
         id=self.controller.get_id_umid()
         vista = Vista_Umid(self,self.main_window,id)
         self.main_window.addWidget(vista)
         self.main_window.setCurrentWidget(vista)
-    
-    '''
-        Istanzia la vista climatizzatore
-    '''
 
+    # Apre la vista del regolatore di temperatura del settore.
     def inspect_temp_reg(self,event):
         id=self.controller.get_id_temp_reg()
         vista = Vista_Temp_Reg(self,self.main_window,id)
         self.main_window.addWidget(vista)
         self.main_window.setCurrentWidget(vista)
-    
-    '''
-        Istanzia la vista serbatoio di CO2
-    '''
 
+    # Apre la vista del serbatoio di CO2 del settore.
     def inspect_co2(self,event):
         id=self.controller.get_id_serbCO2()
         vista = Vista_SerbCO2(self,self.main_window,id)
         self.main_window.addWidget(vista)
         self.main_window.setCurrentWidget(vista)
-    
-    '''
-        Costruttore
-        Parametri:
-            (QWidget) parenti_ui, vista parent;
-            (QStackedWidget) main_window, QStackedWidget
-        Percorso della funzione chiamata:
-            settore.view.ui_settore.setup_ui(self,ui)
-            util.simple_window.start_gui_refresher(self)
-            util.simple_window.start_time_refresher(self)
-    '''
 
+    # Costruisce la UI, collega lotti e attuatori ai click e nasconde i comandi in modalità guest.
     def __init__(self,parent_ui,main_window, id):
         super().__init__()
         locale.setlocale(locale.LC_ALL,"it_IT.UTF-8")
@@ -326,7 +255,7 @@ class Vista_Settore(Simple_Window):
             img_label.setObjectName(name)
             self.ui.alert_frame_lotto[name] = img_label
             label.setText(name)
-        
+
         self.load_imgs()
         self.clear_error_label = 0
         self.start_gui_refresher()
