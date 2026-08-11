@@ -1,33 +1,12 @@
 from util.simple_model import Simple_Model
 
-"""
-    Implementazione della classe Model_Consumo
 
-    Contiene i dati che rappresentano un consumo unitario
-
-    Autori:
-    Alessandro Minutillo
-    Davide Nunin
-    Marco Ciammaichella
-    Vito Scaraggi
-"""
+# Model di un consumo unitario (idrico ed elettrico) campionato in una data.
 class Model_Consumo(Simple_Model):
     def __init__(self,id = None):
         super().__init__("Consumo",id)
 
-    """
-        Crea un nuovo consumo utilizzando i parametri forniti
-        Percorso della funzione richiamata:
-            Nessuna
-        Parametri:
-            id: l' id del nuovo consumo (int)
-            id_serra: l' id della serra corrispondente (int)
-            consumo_idrico: la quantità di litri di soluzione consumati (float)
-            consumo_elettrico: il numero di KWh consumati (float)
-            data: la data del campionamento del consumo (string)
-        Return:
-            Nessuno
-    """
+    # Popola un nuovo record di consumo con i valori forniti.
     def set_new_model(self, id, id_serra ,consumo_idrico, consumo_elettrico, data):
         self.id = id
         self.info["id"] = id

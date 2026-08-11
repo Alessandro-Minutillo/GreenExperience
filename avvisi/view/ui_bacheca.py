@@ -1,19 +1,9 @@
 from PyQt5.QtWidgets import QAbstractItemView, QListWidget, QVBoxLayout, QGroupBox
 
-'''
-    Implementazione della classe Ui_Bacheca
-    Implementa la gui del widget che rappresenta una bacheca
-    nella vista avvisi
-'''
-
+# GUI di una bacheca: titolo e lista scorrevole di notifiche.
 class Ui_Bacheca():
-    
-    '''
-        Costruisce la gui
-        Parametri:
-            (avvisi.view.vista_bacheca) ui, vista bacheca
-    '''
 
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
      self.main_container = QVBoxLayout()
      gbox = QGroupBox(ui.title)

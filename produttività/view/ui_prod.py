@@ -15,7 +15,9 @@ from pyqtgraph import DateAxisItem
 from colture.controller.contr_lista_colture import Contr_Lista_Colture
 from pyqtgraph import PlotWidget
 
+# GUI della vista produttività: grafico e selettori (generata da Qt Designer).
 class Ui_Prod(object):
+    # Costruisce i widget e il layout della vista produttività.
     def setup_ui(self, layout_base):
         layout_base.setObjectName("layout_base")
         layout_base.resize(960, 640)
@@ -135,6 +137,7 @@ class Ui_Prod(object):
         self.retranslateUi(layout_base)
         QtCore.QMetaObject.connectSlotsByName(layout_base)
 
+    # Imposta i testi delle etichette della vista produttività.
     def retranslateUi(self, layout_base):
         _translate = QtCore.QCoreApplication.translate
         layout_base.setWindowTitle(_translate("layout_base", "GreenExperience"))

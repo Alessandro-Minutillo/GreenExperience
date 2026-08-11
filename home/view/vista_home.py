@@ -9,91 +9,59 @@ from colture.view.vista_colture import Vista_Colture
 from util.simple_window import Simple_Window
 from account.controller.contr_account import Contr_Account
 
-'''
-    Implementazione della classe Vista_Home
-    Implementa la vista home
-'''
 
+# Vista home: menu principale con accesso a notifiche, colture, produttività, consumi e account.
 class Vista_Home(Simple_Window):
-    
-    '''
-        Istanzia le immagini da visualizzare nella view
-    '''
 
+    # Carica e ridimensiona le immagini di profilo guest e admin.
     def load_imgs(self):
         self.mywidth = 200
         self.myheight = 200
-        self.guest_img = QPixmap("img/guest.png").scaled(self.mywidth, 
+        self.guest_img = QPixmap("img/guest.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
 
-        self.admin_img = QPixmap("img/admin.png").scaled(self.mywidth, 
+        self.admin_img = QPixmap("img/admin.png").scaled(self.mywidth,
                                                             self.myheight,
                                                             Qt.KeepAspectRatio,
                                                             Qt.SmoothTransformation)
-    '''
-        Istanzia la vista notifiche
-    '''
 
+    # Apre la vista notifiche.
     def vedi_notifiche(self):
         Vista=Vista_Avvisi(self,self.main_window)
         self.main_window.addWidget(Vista)
         self.main_window.setCurrentWidget(Vista)
 
-    '''
-        Istanzia la vista colture
-    '''
-
+    # Apre la vista colture.
     def vedi_colture(self):
         Vista=Vista_Colture(self,self.main_window)
         self.main_window.addWidget(Vista)
         self.main_window.setCurrentWidget(Vista)
-    
-    '''
-        Istanzia la vista produttività
-    '''
 
+    # Apre la vista produttività.
     def vedi_prod(self):
         Vista=Vista_Prod(self,self.main_window)
         self.main_window.addWidget(Vista)
         self.main_window.setCurrentWidget(Vista)
-    
-    '''
-        Istanzia la vista consumi
-    '''
 
+    # Apre la vista consumi.
     def vedi_cons(self):
         Vista=Vista_Consumi(self,self.main_window)
         self.main_window.addWidget(Vista)
         self.main_window.setCurrentWidget(Vista)
 
-    '''
-        Istanzia la vista account
-    '''
-
+    # Apre la vista account.
     def vedi_account(self):
         Vista=Vista_Account(self,self.main_window, self.id)
         self.main_window.addWidget(Vista)
         self.main_window.setCurrentWidget(Vista)
-    
-    '''
-        Torna alla vista login
-    '''
 
+    # Torna alla schermata di login.
     def cambia_utente(self):
         self.main_window.removeWidget(self.main_window.currentWidget())
 
-    '''
-        Costruttore
-        Parametri:
-            (QWidget) parenti_ui, vista parent;
-            (QStackedWidget) main_window, QStackedWidget
-        Percorso delle funzioni chiamate:
-            home.view.ui_home.setup_ui(self,ui)
-            util.simple_window.add_thread(self,thread)
-    '''
-
+    # Costruisce la UI, imposta profilo/permessi in base alla modalità e collega i pulsanti.
     def __init__(self,parent_ui,main_window, id):
         super().__init__()
         self.parent_ui = parent_ui
@@ -106,7 +74,7 @@ class Vista_Home(Simple_Window):
         self.ui.setup_ui(self)
         self.start_time_refresher(self.ui.data_label)
         self.add_thread(self.ui.serra_frame.thread)
-        
+
         if self.main_window.mode == "guest":
             self.ui.button[0].hide()
             self.ui.button[1].hide()

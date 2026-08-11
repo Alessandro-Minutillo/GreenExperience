@@ -7,31 +7,19 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from avvisi.view.notifica import Notifica
 
-'''
-    Implementazione della classe Notifica_On_Off
-    Implementa un widget che rappresenta una notifica relativa
-    allo stato acceso/spento di un attuatore
-'''
 
+# Notifica relativa a un attuatore spento.
 class Notifica_On_Off(Notifica):
-    
-    '''
-        Costruttore
-        Parametri:
-            (QWidget) parent_ui, vista parent;
-            (QStackedWidget) main_window, stacked widget;
-            (int) id, id dell'attuatore;
-            (string) nome_att, nome abbreviato dell'attuatore
-    '''
 
+    # Costruisce la notifica scegliendo testo e vista in base al tipo di attuatore.
     def __init__(self, parent_ui, main_window, id, nome_att):
-        
+
         nome_classe = {}
         abbr_ext = {}
-        
+
         abbr_ext["pompa"] = "La pompa\n"
         nome_classe["pompa"] = Vista_Pompa
-        
+
         abbr_ext["umid"] = "Il de/umidificatore\n"
         nome_classe["umid"] = Vista_Umid
 
@@ -44,20 +32,15 @@ class Notifica_On_Off(Notifica):
         abbr_ext["luce_reg"] = "L'impianto di\nilluminazione\n"
         nome_classe["luce_reg"] = Vista_Lotto
 
-        super().__init__(parent_ui, 
-                        main_window, 
-                        [id], 
-                        [nome_classe[nome_att]], 
+        super().__init__(parent_ui,
+                        main_window,
+                        [id],
+                        [nome_classe[nome_att]],
                         "{} n° {} è spento".format(abbr_ext[nome_att], id),
                         QPixmap("img/off.png").scaled(100,100,Qt.KeepAspectRatio,Qt.SmoothTransformation))
-        
+
         self.nome_att = nome_att
 
-    '''
-        Ritorna il nome abbreviato dell'attuatore cui la notifica fa riferimento
-        Return:
-            (string) nome abbreviato dell'attuatore
-    '''
-
+    # Restituisce il nome abbreviato dell'attuatore della notifica.
     def get_nome_att(self):
         return self.nome_att

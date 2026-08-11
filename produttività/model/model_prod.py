@@ -1,68 +1,32 @@
 from util.simple_model import Simple_Model
 from datetime import datetime
 import locale
-'''
-    Implementazionde della classe Model_Prod
-    Implementa un model che rappresenta il singolo prodotto
-'''
+
+
+# Model di un singolo prodotto raccolto (coltura, quantità, data).
 class Model_Prod(Simple_Model):
-    '''
-        Costruttore
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    '''
+
     def __init__(self,id = None):
        super().__init__("Prodotto",id)
        locale.setlocale(locale.LC_ALL,"it_IT.UTF-8")
-    '''
-        Inserisce nelle info il valore della data di un singolo prodotto
-        Parametri:
-            (datetime) data: la data da inserire  
-        Return:
-            Nessuno
-    '''
+
+    # Imposta la data del prodotto.
     def set_time(self,data):
         self.info["data"]=data
-    '''
-        Restituisce la data in cui il singolo prodotto è stato raccolto
-        Parametri:
-            Nessuno
-        Return
-            (datetime) data
-    '''
+
+    # Restituisce la data di raccolta come datetime.
     def get_time(self):
         return (datetime.strptime(self.info["data"],"%d %b %Y, %a %H:%M"))
-    '''
-        Restituisce l'id della coltura
-        Parametri:
-            Nessuno
-        Return
-            (int) id coltura
-    '''
+
+    # Restituisce l'id della coltura del prodotto.
     def get_id_coltura(self):
         return (self.info["id_coltura"])
-    '''
-        restituisce la quantità prodotta
-        Parametri:
-            Nessuno
-        Return
-            (int) quantità di proddotto ricavanta,in kg
-    '''
+
+    # Restituisce la quantità prodotta (kg).
     def get_quant(self):
         return (self.info["quant"])
-    '''
-        Istanzia un nuovo ogetto "prodotto"
-        Parametri:
-            (int) id: l'id relativo al prodotto
-            (int) id_lotto: l'id del lotto relativo al prodotto
-            (int) id_coltura: l'id della coltura
-            (int) quant: quantità di  prodotto raccolta 
-            (datetime) data: data di raccolta del prodotto
-        Return:
-            Nessuno
-    '''
+
+    # Popola un nuovo record di prodotto con i valori forniti.
     def set_new_model(self, id, id_lotto, id_coltura, quant, data):
         self.id = id
         self.info["id"] = id

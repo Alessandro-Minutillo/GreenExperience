@@ -1,19 +1,9 @@
 from PyQt5.QtWidgets import QFrame, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 
-'''
-    Implementazione della classe Ui_Notifica
-    Implementa la gui del widget che rappresenta una notifica
-    nella vista bacheca
-'''
-
+# GUI di una notifica: icona, messaggio e pulsanti di azione.
 class Ui_Notifica():
-    
-    '''
-        Costruisce la gui
-        Parametri:
-            (avvisi.view.vista_notiifica) ui, vista_notifica
-    '''
 
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
         main_container = QVBoxLayout()
         frame = QFrame()

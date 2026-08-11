@@ -5,19 +5,10 @@ from avvisi.view.vista_bacheca_pr import Vista_Bacheca_PR
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 
-'''
-     Implementazione della classe Ui_Avvisi
-     Crea la gui della vista avvisi
-'''
-
+# GUI della vista avvisi: dispone le tre bacheche di notifiche.
 class Ui_Avvisi():
 
-    '''
-     Costruisce la gui
-     Parametri:
-          (avvisi.view.vista_avvisi) ui, vista avvisi
-    '''
-
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
 
        self.main_container = QVBoxLayout()

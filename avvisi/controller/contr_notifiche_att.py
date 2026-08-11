@@ -1,144 +1,48 @@
 from avvisi.model.model_notifiche_att import Model_Notifiche_Att
 
-'''
-    Implementazione della classe Contr_Notifiche_Att
-    Implementa un controllore per la gestione delle notifiche
-    riguardanti gli attuatori
-'''
 
+# Controller delle notifiche sugli attuatori: tramite verso Model_Notifiche_Att.
 class Contr_Notifiche_Att():
-
-    '''
-        Costruttore
-    '''
 
     def __init__(self):
         self.model = Model_Notifiche_Att()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di accensione delle pompe
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_pompa_off(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dello stato spento/acceso delle pompe.
     def get_diz_pompa_off(self):
         return self.model.get_diz_pompa_off()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di accensione degli
-        impianti di illuminazione
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_luce_reg_off(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dello stato spento/acceso degli impianti di illuminazione.
     def get_diz_luce_reg_off(self):
         return self.model.get_diz_luce_reg_off()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di accensione degli
-        impianti di climatizzazione
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_temp_reg_off(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dello stato spento/acceso dei regolatori di temperatura.
     def get_diz_temp_reg_off(self):
         return self.model.get_diz_temp_reg_off()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di accensione dei
-        de/umidificatori
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_umid_off(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dello stato spento/acceso degli umidificatori.
     def get_diz_umid_off(self):
         return self.model.get_diz_umid_off()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato dei
-        serbatoi di CO2
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_serbco2_off(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dello stato spento/acceso dei serbatoi di CO2.
     def get_diz_serbco2_off(self):
         return self.model.get_diz_serbco2_off()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di funzionamento delle pompe
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_pompa_oor(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dei fuori-range di funzionamento delle pompe.
     def get_diz_pompa_oor(self):
         return self.model.get_diz_pompa_oor()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di funzionamento degli
-        impianti di illuminazione
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_luce_reg_oor(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dei fuori-range degli impianti di illuminazione.
     def get_diz_luce_reg_oor(self):
         return self.model.get_diz_luce_reg_oor()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di funzionamento degli
-        impianti di illuminazione
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_temp_reg_oor(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dei fuori-range dei regolatori di temperatura.
     def get_diz_temp_reg_oor(self):
         return self.model.get_diz_temp_reg_oor()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di funzionamento dei
-        de/umidificatori
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_umid_oor(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dei fuori-range degli umidificatori.
     def get_diz_umid_oor(self):
         return self.model.get_diz_umid_oor()
-    
-    '''
-        Restituisce un dizionario in cui sono memorizzate
-        informazioni relative allo stato di funzionamento dei
-        serbatoi di CO2
-        Percorso della funzione chiamata:
-            avvisi.model.model_notifiche_att.get_diz_serbco2_oor(self)
-        Return:
-            (dict) dizionario
-    '''
 
+    # Dizionario dei fuori-range dei serbatoi di CO2.
     def get_diz_serbco2_oor(self):
         return self.model.get_diz_serbco2_oor()

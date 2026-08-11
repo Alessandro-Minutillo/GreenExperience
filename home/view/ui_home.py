@@ -2,17 +2,10 @@ from PyQt5.QtCore import Qt
 from serra.view.vista_serra import Vista_Serra
 from PyQt5.QtWidgets import QGroupBox, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QFrame
 
-'''
-    Implementazione della classe Ui_Home
-    Crea la gui della vista home
-'''
-
+# GUI della vista home: pulsanti di navigazione e pannello serra.
 class Ui_Home():
 
-    '''
-        Crea la gui
-    '''
-
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
         self.hlayout = QHBoxLayout()
         self.frame_panel = QFrame()

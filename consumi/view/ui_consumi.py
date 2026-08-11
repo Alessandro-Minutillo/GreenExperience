@@ -11,7 +11,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import DateAxisItem,PlotItem,AxisItem
 
+# GUI della vista consumi: grafici e combo box dei periodi (generata da Qt Designer).
 class Ui_Consumi(object):
+    # Costruisce i widget e il layout della vista consumi.
     def setup_ui(self, layout_base):
         layout_base.setObjectName("layout_base")
         layout_base.resize(960, 640)
@@ -174,6 +176,7 @@ class Ui_Consumi(object):
         self.retranslateUi(layout_base)
         QtCore.QMetaObject.connectSlotsByName(layout_base)
 
+    # Imposta i testi delle etichette della vista consumi.
     def retranslateUi(self, layout_base):
         _translate = QtCore.QCoreApplication.translate
         layout_base.setWindowTitle(_translate("layout_base", "GreenExperience"))
@@ -185,6 +188,7 @@ class Ui_Consumi(object):
         self.indietro.setText(_translate("layout_base", "Indietro"))
 from pyqtgraph import PlotWidget
 
+# Elenco delle opzioni di periodo per i grafici dei consumi.
 class intervalli():
     def __init__(self):
         self.listofinterval=["settimanale","mensile","annuale","dall' inizio"]
