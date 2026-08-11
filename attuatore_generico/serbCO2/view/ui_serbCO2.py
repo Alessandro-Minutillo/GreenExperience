@@ -1,7 +1,9 @@
 from PyQt5 import QtCore
 from attuatore_generico.interface.ui_att import Ui_Att
 
+# GUI del serbatoio di CO2: riusa il layout di Ui_Att e ne traduce le etichette.
 class Ui_SerbCO2(Ui_Att):
+    # Imposta i testi delle etichette e gli objectName per lo stile.
     def retranslateUi(self, att):
         _translate = QtCore.QCoreApplication.translate
         att.setWindowTitle(_translate("att", "GreenExperience"))

@@ -1,78 +1,38 @@
 from util.simple_model import Simple_Model
 
-'''
-    Implementazione della classe Model_Att
-    Definisce un'interfaccia per il model di un generico attuatore
-'''
 
+# Model base di un attuatore generico: stato acceso/spento, coltura e consumi.
 class Model_Att(Simple_Model):
 
-    '''
-        Costruttore
-        Parametri:
-            (string) table, tabella del database;
-            (int) id, id dell'attuatore
-    '''
-
+    # Carica i dati e converte il campo "switch" da stringa a booleano.
     def __init__(self, table, id):
         super().__init__(table, id)
         self.info["switch"] = self.info["switch"] == 'True'
 
-    '''
-        Restituisce un flag booleano che indica lo stato acceso/spento dell'attuatore
-        Return:
-            (bool) stato acceso/spento
-    '''
-
+    # Restituisce lo stato acceso/spento dell'attuatore.
     def get_switch(self):
         return self.info["switch"]
-    
-    '''
-        Inverte lo stato acceso/spento dell'attuatore
-    '''
 
+    # Inverte lo stato acceso/spento dell'attuatore.
     def on_off(self):
         self.info["switch"] = not self.info["switch"]
 
-    '''
-        Restituisce il nome comune della coltura coltivata nel settore
-        in cui è presente l'attuatore
-        Return:
-            (string) nome coltura
-    '''
-
+    # Restituisce il nome della coltura del settore in cui opera l'attuatore.
     def get_coltura(self):
         return self.coltura.get_name()
-    
-    '''
-        Setta la coltura su cui è impostato l'attuatore
-        Parametri:
-            (coltura.model.model_coltura) coltura
-    '''
 
+    # Imposta la coltura associata all'attuatore.
     def set_coltura(self, coltura):
         self.coltura = coltura
 
-    '''
-        Restituisce il consumo energetico attuale dell'attuatore
-        Return:
-            (float) consumo
-    '''
-
+    # Consumo elettrico attuale: il valore nominale se acceso, altrimenti 0.
     def get_consumo(self):
         valore_finale=0
         if self.get_switch():
             valore_finale=self.info["consumo_elettrico"]
         return valore_finale
-    
-    '''
-        Restituisce il consumo energetico medio dell'attuatore
-        Parametri:
-            (float) spinbox_value
-        Return:
-            (float) consumo
-    '''
 
+    # Consumo medio tra quello attuale e quello a regime per il valore impostato.
     def get_consumo_medio(self, spinbox_value):
         valore_finale=0
         if self.get_switch():

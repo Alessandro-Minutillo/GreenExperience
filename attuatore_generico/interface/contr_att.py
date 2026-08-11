@@ -1,63 +1,26 @@
-'''
-    Implementazione della classe Contr_Att
-
-    Implementa un'interfaccia per il controller di un generico attuatore
-'''
-
+# Controller base di un attuatore generico: fa da tramite tra vista e model.
 class Contr_Att():
 
-    '''
-        Restituisce lo stato acceso/spento dell'attuatore
-        Return: 
-            (bool) stato acceso/spento
-    '''    
+    # Restituisce lo stato acceso/spento dell'attuatore.
     def get_switch(self):
         return self.model.get_switch()
 
-    '''
-        Restituisce il consumo energetico attuale dell'attuatore
-        Return:
-            (float) consumo
-    '''
-
+    # Consumo elettrico attuale, formattato a due decimali.
     def get_consumo(self):
         return "{:.2f}".format(self.model.get_consumo())
 
-    '''
-        Restituisce il consumo energetico mediio dell'attuatore
-        Parametri:
-            (float) spinbox_value
-        Return:
-            (float) consumo medio
-    '''
-
+    # Consumo medio per il valore impostato, formattato a due decimali.
     def get_consumo_medio(self, spinbox_value):
         return "{:.2f}".format(self.model.get_consumo_medio(spinbox_value))
 
-    '''
-        Restituisce il consumo energetico attuale dell'attuatore
-        Parametri:
-            (float) spinbox_value
-        Return:
-            (float) consumo
-    '''
-
+    # Consumo a regime per il valore impostato, formattato a due decimali.
     def get_consumo_real(self, spinbox_value):
         return "{:.2f}".format(self.model.get_consumo_real(spinbox_value))
 
-    '''
-        Restituisce il nome comune della coltura coltivata nel settore
-        in cui è presente l'attuatore
-        Return:
-            (string) nome coltura
-    '''
-
+    # Restituisce il nome della coltura del settore dell'attuatore.
     def get_coltura(self):
         return self.model.get_coltura()
-    
-    '''
-        Cambia lo stato acceso/spento dell'attuatore
-    '''
 
+    # Inverte lo stato acceso/spento dell'attuatore.
     def on_off(self):
         self.model.on_off()

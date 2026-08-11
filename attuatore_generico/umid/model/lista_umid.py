@@ -2,6 +2,8 @@ from attuatore_generico.interface.lista_att import Lista_Att
 from attuatore_generico.umid.model.model_umid import Model_Umid
 from util.singleton import Singleton
 
+
+# Lista singleton degli umidificatori (tabella "Umid").
 @Singleton
 class Lista_Umid(Lista_Att):
     def __init__(self):

@@ -3,19 +3,10 @@ from qtwidgets.toggle.toggle import AnimatedToggle
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
 
-'''
-    Implementazione della classe Ui_Luce
-    Implementa la gui della vista dell'impianto di illuminazione
-'''
-
+# GUI dell'impianto di illuminazione: widget e layout della vista.
 class Ui_Luce_Reg():
-    
-    '''
-        Costruisce la gui
-        Parametri:
-            (attuatore_generico.luce_reg.view.vista_luce_reg) ui, vista dell'impianto di illuminazione
-    '''
 
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self,ui):
        ui.setObjectName("frame_luci")
        

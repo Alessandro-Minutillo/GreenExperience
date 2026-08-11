@@ -3,18 +3,11 @@ from attuatore_generico.pompa.view.ui_pompa import Ui_Pompa
 from util.simple_window import Simple_Window
 from attuatore_generico.pompa.controller.contr_pompa import Contr_pompa
 
-"""
-    Implementazione della classe Vista_Pompa
-    Contiene i widget necessari all' interazione con ' utente e le funzioni che le gestiscono.
 
-    Autori:
-    Alessandro Minutillo
-    Davide Nunin
-    Marco Ciammaichella
-    Vito Scaraggi
-"""
+# Vista della pompa: widget di controllo di pH, EC, soluzione e stato acceso/spento.
 class Vista_Pompa(Simple_Window):
 
+    # Costruisce la UI, collega il controller e disabilita i comandi in modalità guest.
     def __init__ (self, parent_ui, main_window, id):
         super(Vista_Pompa,self).__init__()
         self.parent_ui = parent_ui
@@ -34,81 +27,33 @@ class Vista_Pompa(Simple_Window):
             self.ui.onoff_pompa.setEnabled(False)
             self.ui.selectprofile.setEnabled(False)
 
-    """
-        Effettua il toggle dell' interruttore della pompa, ossia la accende se spenta e la spegne se accesa
-        Percorso delle funzioni richiamate:
-            attuatore_generico.pompa.controller.controller_pompa.on_off()
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+    # Inverte lo stato acceso/spento della pompa.
     def toggleswitch(self):
         self.controller.on_off()
-    """
-        Effettua il cambio del ph della soluzione in cui sono le piante del settore
-        Percorso delle funzioni richiamate:
-        attuatore_generico.pompa.controller.controller_pompa.on_change_ph(self.ui.doubleSpinBox_1_ph.cleanText().replace(',','.'))
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+
+    # Applica il nuovo pH dalla spinbox e aggiorna la label.
     def on_change_ph(self):
         self.controller.on_change_ph(self.ui.doubleSpinBox_1_ph.cleanText().replace(',','.'))
         self.ui.valore1.setText(self.ui.doubleSpinBox_1_ph.cleanText())
-    """
-        Effettua il cambio della salinità della soluzione in cui sono le piante del settore
-        Percorso delle funzioni richiamate:
-        attuatore_generico.pompa.controller.controller_pompa.on_change_ec(self.ui.doubleSpinBox_2_ec.cleanText().replace(',','.'))
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+
+    # Applica la nuova salinità (EC) dalla spinbox e aggiorna la label.
     def on_change_ec(self):
         self.controller.on_change_ec(self.ui.doubleSpinBox_2_ec.cleanText().replace(',','.'))
         self.ui.valore2.setText(self.ui.doubleSpinBox_2_ec.cleanText())
-    """
-        Effettua il cambio dei macroelementi della soluzione in cui sono le piante del settore
-        Percorso delle funzioni richiamate:
-            attuatore_generico.pompa.controller.controller_pompa.on_change_sol(self.ui.selectprofile.currentIndex()+1)
-            self.refresh_table()
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+
+    # Applica il profilo soluzione selezionato e aggiorna la tabella.
     def on_change_sol(self):
         self.controller.on_change_sol(self.ui.selectprofile.currentIndex()+1)
         self.refresh_table()
 
-    """
-        Disabilita la tabella dei macroelementi
-        Percorso delle funzioni richiamate:
-            Nessuna
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
-
+    # Rende non modificabili le celle della tabella dei macroelementi.
     def disable_table(self):
         for i in range(0,6):
             for j in range(0,2):
                 self.ui.tabella.item(i,j).setFlags(QtCore.Qt.NoItemFlags)
                 self.ui.tabella.item(i,j).setFlags(QtCore.Qt.ItemIsEnabled)
-    
-    """
-        Effettua il refresh della tabella dei macroelementi quando vengono cambiate le impostazioni
-        Percorso delle funzioni richiamate:
-            self.controller.get_sol()
-            self.controller.get_sol_cons()
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+
+    # Ricarica la tabella con i macroelementi della soluzione attuale e di quella consigliata.
     def refresh_table(self):
         soluzione=self.controller.get_sol()
         self.ui.tabella.setItem(0,0,QtWidgets.QTableWidgetItem(str(soluzione.get_property("quant_N"))))
@@ -117,7 +62,7 @@ class Vista_Pompa(Simple_Window):
         self.ui.tabella.setItem(3,0,QtWidgets.QTableWidgetItem(str(soluzione.get_property("quant_Mg"))))
         self.ui.tabella.setItem(4,0,QtWidgets.QTableWidgetItem(str(soluzione.get_property("quant_Fe"))))
         self.ui.tabella.setItem(5,0,QtWidgets.QTableWidgetItem(str(soluzione.get_property("quant_Ca"))))
-        
+
         sol_cons=self.controller.get_sol_cons()
         self.ui.tabella.setItem(0,1,QtWidgets.QTableWidgetItem(str(sol_cons.get_property("quant_N"))))
         self.ui.tabella.setItem(1,1,QtWidgets.QTableWidgetItem(str(sol_cons.get_property("quant_K"))))
@@ -126,7 +71,8 @@ class Vista_Pompa(Simple_Window):
         self.ui.tabella.setItem(4,1,QtWidgets.QTableWidgetItem(str(sol_cons.get_property("quant_Fe"))))
         self.ui.tabella.setItem(5,1,QtWidgets.QTableWidgetItem(str(sol_cons.get_property("quant_Ca"))))
         self.disable_table()
-    
+
+    # Popola i widget con i valori iniziali e collega i segnali di modifica.
     def setui(self):
         self.refresh_table()
         self.ui.selectprofile.addItems(self.controller.get_list_profiles())
@@ -146,6 +92,7 @@ class Vista_Pompa(Simple_Window):
         self.ui.valore1.setText(str(val_ph))
         self.ui.valore2.setText(str(val_ec))
 
+    # Aggiorna a ogni refresh i consumi elettrico e idrico mostrati.
     def refresh_gui(self):
         val_consumo_ele=self.controller.get_consumo_el()
         val_consumo_idro=self.controller.get_consumo_idro()

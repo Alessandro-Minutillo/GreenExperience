@@ -1,20 +1,10 @@
 from PyQt5 import QtCore, QtWidgets
 from qtwidgets.toggle.toggle import AnimatedToggle
 
-'''
-    Implementazione della classe Ui_Att
-    
-    Definisce un'interfaccia per la gui di un attuatore generico
-'''
-
+# Layout base della GUI di un attuatore generico (widget e disposizione).
 class Ui_Att():
-    
-    '''
-        Costruisce la gui
-        Parametri:
-            (attuatore_generico.interface.vista_att) vista dell'attuatore
-    '''
 
+    # Costruisce i widget e il layout dell'attuatore sulla vista passata.
     def setup_ui(self, att):
         att.setObjectName("att")
         att.resize(960, 640)

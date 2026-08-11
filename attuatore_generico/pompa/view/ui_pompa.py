@@ -11,7 +11,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from qtwidgets.toggle.toggle import AnimatedToggle
 
+# GUI della pompa: costruisce widget, layout e testi (generata da Qt Designer).
 class Ui_Pompa(object):
+    # Crea i widget e il layout della vista pompa.
     def setup_ui(self, pompa):
         
         pompa.setObjectName("layout_base")
@@ -328,6 +330,7 @@ class Ui_Pompa(object):
         self.retranslateUi(pompa)
         QtCore.QMetaObject.connectSlotsByName(pompa)
 
+    # Imposta i testi delle etichette e dei pulsanti della vista pompa.
     def retranslateUi(self, pompa):
         _translate = QtCore.QCoreApplication.translate
         pompa.setWindowTitle(_translate("layout_base", "GreenExperience"))
