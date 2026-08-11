@@ -6,6 +6,8 @@ from Tests.TestAttuatori import test_CO2
 from Tests.TestAttuatori import test_temp_reg
 from Tests.TestAttuatori import test_umid
 
+
+# Raccoglie ed esegue tutte le suite di test del progetto.
 def runSuite():
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()

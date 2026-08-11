@@ -3,16 +3,20 @@ from unittest import TestCase
 from util.db_connector import DB_Connector
 from account.model.lista_account import Lista_Account
 
+
+# Test della validazione di username/password e dell'autenticazione degli account.
 class Test_User_Pass(TestCase):
 
+    # Inserisce un account di prova e carica la lista account.
     def setUp(self):
-        sql = "INSERT INTO Account VALUES(2, 'vecchio_username', 'vecchia_password', 1)" 
+        sql = "INSERT INTO Account VALUES(2, 'vecchio_username', 'vecchia_password', 1)"
         cursor = DB_Connector().get_cursor()
         sqliteConnection = DB_Connector().get_connection()
         cursor.execute(sql)
         sqliteConnection.commit()
         self.account = Lista_Account()
 
+    # Rimuove l'account di prova.
     def tearDown(self):
         sql = "DELETE FROM Account WHERE id=2"
         cursor = DB_Connector().get_cursor()
@@ -20,33 +24,42 @@ class Test_User_Pass(TestCase):
         cursor.execute(sql)
         sqliteConnection.commit()
 
+    # Un cambio password valido restituisce il messaggio di successo.
     def test_password(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password(self.account.get_by_id(2).recupera_password_attuale(), "nuova_password", "nuova_password"), "Password cambiata con successo!", "Error")
 
+    # Un cambio username valido restituisce il messaggio di successo.
     def test_username(self):
         self.assertEqual(self.account.get_by_id(2).controllo_username(self.account.get_by_id(2).recupera_username_attuale()), "Username cambiato con successo!", "Error")
 
+    # Le credenziali corrette superano l'autenticazione.
     def test_autenticate(self):
         self.assertTrue(self.account.autenticate("vecchio_username", "vecchia_password"))
-        
+
+    # Vecchia password vuota: errore atteso.
     def test_errore_password_1(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("", "nuova_password", "nuova_password"), "Inserire la vecchia password")
 
+    # Nuova password vuota: errore atteso.
     def test_errore_password_2(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("vecchia_password", "", "nuova_password"), "Inserire la nuova password")
 
+    # Conferma password vuota: errore atteso.
     def test_errore_password_3(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("vecchia_password", "nuova_password", ""), "Confermare la nuova password")
-    
+
+    # Vecchia password errata: errore atteso.
     def test_errore_password_4(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("vecchia_password_non_corretta", "nuova_password", "nuova_password"), "Vecchia password non corretta")
-    
+
+    # Nuova password uguale alla precedente: errore atteso.
     def test_errore_password_5(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("vecchia_password", "vecchia_password", "vecchia_password"), "Inserire una password diversa dalla precedente")
-        
+
+    # Conferma non corrispondente: errore atteso.
     def test_errore_password_6(self):
         self.assertEqual(self.account.get_by_id(2).controllo_password("vecchia_password", "nuova_password", "nuova_password_non_corretta"), "Errore nella conferma della password")
-    
+
+    # Nuovo username vuoto: errore atteso.
     def test_errore_username_1(self):
         self.assertEqual(self.account.get_by_id(2).controllo_username(""), "Inserire il nuovo username")
-    
