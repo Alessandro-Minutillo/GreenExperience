@@ -1,16 +1,9 @@
 from PyQt5 import QtCore, QtWidgets
 
-'''
-    Implementazione della classe Ui_Account
-    Crea la gui della vista Account
-'''
-
+# GUI della vista Account: widget e layout.
 class Ui_Account(object):
 
-    '''
-        Crea la gui
-    '''
-
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self, layout_base):
         layout_base.setObjectName("layout_base")
         layout_base.resize(960, 640)
@@ -223,10 +216,7 @@ class Ui_Account(object):
         self.retranslateUi(layout_base)
         QtCore.QMetaObject.connectSlotsByName(layout_base)
 
-    '''
-        Setta i testi nella view
-    '''
-
+    # Imposta i testi delle etichette e dei campi della vista.
     def retranslateUi(self, ui):
         _translate = QtCore.QCoreApplication.translate
         ui.setWindowTitle(_translate("ui", "GreenExperience"))

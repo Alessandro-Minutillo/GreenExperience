@@ -3,29 +3,11 @@ from account.controller.contr_account import Contr_Account
 from PyQt5.QtWidgets import QWidget, QApplication
 from util.simple_window import Simple_Window
 
-"""
-    Implementazione della classe Vista_Account
 
-    Autori:
-    Alessandro Minutillo
-    Davide Nunin
-    Marco Ciammaichella
-    Vito Scaraggi
-"""
+# Vista dell'account: modifica di username e password con relativi controlli.
 class Vista_Account(Simple_Window):
-    
-    """
-        Si occupa di leggere dalle qlabels i valori inseriti dall'utente, controllare che 
-        vengano rispettati i vincoli, impostare il valore della label di errore ed eventualmente
-        cambiare la password e pulire i campi precedentemente utilizzati dall'utente
-        Percorso delle funzioni richiamate:
-            account.controller.contr_account.controllo_password(vecchia_password, nuova_password, conferma_nuova_password)
-            account.controller.contr_account.cambia_password(nuova_password)
-        Parametri:
-            Nessuno
-        Return:
-            Nessuno
-    """
+
+    # Legge i campi password, applica il cambio se valido e pulisce i campi.
     def set_password(self):
         vecchia_password = self.ui.vecchia_password_field.text()
         nuova_password = self.ui.nuova_password_field.text()
@@ -37,17 +19,7 @@ class Vista_Account(Simple_Window):
             self.ui.nuova_password_field.setText("")
             self.ui.conferma_password_field.setText("")
 
-
-    """
-        Si occupa di leggere dalle qlabels i valori inseriti dall'utente, controllare che 
-        vengano rispettati i vincoli, impostare il valore della label di errore ed eventualmente
-        cambiare lo username e pulire i campi precedentemente utilizzati dall'utente
-        Percorso delle funzioni richiamate:
-            account.controller.contr_account.controllo_username(nuovo_username)
-            account.controller.contr_account.cambia_username(nuovo_username)
-        Return:
-            Nessuno
-    """
+    # Legge il campo username, applica il cambio se valido e pulisce il campo.
     def set_username(self):
         nuovo_username = self.ui.username_field.text()
         self.ui.label_errore_1.setText(self.controller.controllo_username(nuovo_username))
@@ -55,6 +27,7 @@ class Vista_Account(Simple_Window):
             self.controller.cambia_username(nuovo_username)
             self.ui.username_field.setText("")
 
+    # Costruisce la UI e collega i pulsanti di applicazione delle modifiche.
     def __init__(self,parent_ui,main_window,id):
         super(Vista_Account,self).__init__()
         self.parent_ui = parent_ui
@@ -64,6 +37,6 @@ class Vista_Account(Simple_Window):
         self.ui.setup_ui(self)
         self.start_time_refresher(self.ui.data_ora)
         self.ui.indietro.clicked.connect(self.go_back)
-        
+
         self.ui.applica_modifiche.clicked.connect(self.set_username)
         self.ui.applica_modifiche_2.clicked.connect(self.set_password)

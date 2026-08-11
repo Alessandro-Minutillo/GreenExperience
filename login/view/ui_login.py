@@ -1,16 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-'''
-    Implementazione della classe Ui_Login
-    Crea la gui della vista login
-'''
-
+# GUI della vista login: widget e layout.
 class Ui_Login():
-    
-    '''
-        Crea la gui
-    '''
 
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self, ui):
         ui.setObjectName("ui")
         ui.resize(960, 640)
@@ -108,10 +101,7 @@ class Ui_Login():
         self.retranslateUi(ui)
         QtCore.QMetaObject.connectSlotsByName(ui)
 
-    '''
-        Setta i testi della view
-    '''
-
+    # Imposta i testi delle etichette e dei pulsanti della vista.
     def retranslateUi(self, ui):
         _translate = QtCore.QCoreApplication.translate
         ui.setWindowTitle(_translate("ui", "Login"))

@@ -2,36 +2,19 @@ from account.model.model_account import Model_Account
 from util.lista import Lista
 from util.singleton import Singleton
 
-'''
-    Implementazione  della classe Lista_Account
-    Implementa una lista di account
-'''
 
+# Lista singleton degli account registrati (tabella "Account").
 @Singleton
 class Lista_Account(Lista):
 
-    '''
-        Costruttore
-    '''
-
     def __init__(self):
         super().__init__(Model_Account, "Account")
-    
-    '''
-        Restituisce True se esiste un account con username e password inseriti, False altrimenti
-        Return:
-            (bool) flag
-    '''
 
+    # True se esiste un account con lo username e la password indicati.
     def autenticate(self, username, password):
         return any(d.recupera_username_attuale() == username and d.recupera_password_attuale() == password for d in self.lista.values())
-    
-    '''
-        Restituisce l'id dell'account corrispondente a username e password inseriti
-        Return:
-            (int) id
-    '''
 
+    # Restituisce l'id dell'account corrispondente a username e password.
     def get_id(self, username, password):
         for d in self.lista.values():
             if(d.recupera_username_attuale() == username and d.recupera_password_attuale() == password):
