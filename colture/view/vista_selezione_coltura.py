@@ -2,46 +2,23 @@ from PyQt5.QtWidgets import QWidget
 from colture.controller.contr_lista_colture import Contr_Lista_Colture
 from colture.view.ui_selezione_coltura import Ui_Selezione_Coltura
 
-'''
-    Implementazione della classe Vista_Selezione_Coltura
-    Implementa la vista che consente di scegliere una coltura
-    mediante una combo box
-'''
 
+# Vista di selezione coltura tramite combo box.
 class Vista_Selezione_Coltura(QWidget):
 
-    '''
-        Restituisce la coltura attualmente selezionata
-        Return:
-            (string) nome coltura
-    '''
-
+    # Restituisce il nome della coltura selezionata.
     def get_current_coltura(self):
         return self.ui.combo_coltura.currentText()
 
-    '''
-        Restituisce l'id della coltura attualmente selezionata
-        Return:
-            (int) id, id della coltura
-    '''
-
+    # Restituisce l'id della coltura selezionata.
     def get_current_coltura_id(self):
         return self.controller.get_id_by_name(self.ui.combo_coltura.currentText())
-    '''
-        Restituisce l'indice attualmente selezionato della combo box
-        Return:
-            (int) indice
-    '''
 
+    # Restituisce l'indice selezionato nella combo box.
     def get_current_index(self):
         return self.ui.combo_coltura.currentIndex()
-    
-    '''
-        Costruttore
-        Percorso della funzione chiamata:
-            colture.view.ui_selezione_coltura.setup_ui(self,ui)
-    '''
 
+    # Costruisce la UI e popola la combo box con tutte le colture.
     def __init__(self,parent_ui,main_window):
         super().__init__()
         self.parent_ui = parent_ui

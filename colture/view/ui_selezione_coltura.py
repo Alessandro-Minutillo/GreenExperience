@@ -1,16 +1,9 @@
 from PyQt5.QtWidgets import QComboBox, QVBoxLayout
 
-'''
-    Implementazione della classe Ui_Selezione_Coltura
-    Crea la gui della vista selezione coltura
-'''
-
+# GUI della vista di selezione coltura: una combo box.
 class Ui_Selezione_Coltura():
-    
-    '''
-        Crea la gui
-    '''
 
+    # Costruisce la combo box di selezione coltura sulla vista passata.
     def setup_ui(self,ui):
        ui.setObjectName("widget_selezione_coltura")
        layout = QVBoxLayout()

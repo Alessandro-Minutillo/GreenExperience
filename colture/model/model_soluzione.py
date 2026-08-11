@@ -1,27 +1,13 @@
 from util.simple_model import Simple_Model
 
-'''
-    Implementazione della classe Model_Soluzione
-    Implementa un model per la rappresentazione di una soluzione circolante
-'''
 
+# Model di una soluzione circolante: quantità di macroelementi.
 class Model_Soluzione(Simple_Model):
-
-    '''
-        Costruttore
-        Parametro:
-            (int) id, id della soluzione
-    '''
 
     def __init__(self, id):
         super().__init__("Soluzione_Circolante",id)
-    
-    '''
-        Ridefinisce il magic method __str__
-        Return:
-            (string) formattazione html di una soluzione circolante
-    '''
 
+    # Rappresentazione HTML (tabella) dei macroelementi della soluzione.
     def __str__(self):
         string = '''
         <style>
@@ -34,7 +20,7 @@ class Model_Soluzione(Simple_Model):
         row2 = "<tr>"
         for prop in  self.info.keys():
             if prop != 'id':
-                row1 += "<td>" + str(prop).replace("quant_","") + "</td>" 
+                row1 += "<td>" + str(prop).replace("quant_","") + "</td>"
                 row2 += "<td>" + "{:.0f}".format(self.info[prop]) + "</td>"
         row1 += "</tr>"
         row2 += "</tr>"

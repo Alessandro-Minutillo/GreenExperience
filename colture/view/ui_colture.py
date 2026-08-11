@@ -1,17 +1,10 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QPixmap
 
-'''
-    Implementazione della classe Ui_Colture
-    Crea la gui della vista colture
-'''
-
+# GUI della vista colture: lista, scheda tecnica e immagine.
 class Ui_Colture():
 
-    '''
-        Crea la gui
-    '''
-
+    # Costruisce i widget e il layout sulla vista passata.
     def setup_ui(self, widget):
 
         #layout verticale più esterno
@@ -171,10 +164,7 @@ class Ui_Colture():
         self.retranslateUi(widget)
         QtCore.QMetaObject.connectSlotsByName(widget)
 
-    '''
-        Setta testi nei widget
-    '''
-
+    # Imposta i testi delle etichette e dei widget della vista.
     def retranslateUi(self, widget):
         _translate = QtCore.QCoreApplication.translate
         widget.setWindowTitle(_translate("layout_base", "GreenExperience"))
